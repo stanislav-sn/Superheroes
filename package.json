@@ -1,0 +1,32 @@
+{
+	"name": "superheroes",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"workspaces": [
+		"frontend",
+		"backend",
+		"packages/*"
+	],
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "concurrently \"npm --workspace=backend run dev\" \"npm --workspace=frontend run dev\"",
+		"dev:backend": "npm --workspace=backend run dev",
+		"dev:frontend": "npm --workspace=frontend run dev",
+		"build": "npm --workspace=frontend run build && npm --workspace=backend run build"
+	},
+	"devDependencies": {
+		"concurrently": "^9.2.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/stanislav-sn/Superheroes.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/stanislav-sn/Superheroes/issues"
+	},
+	"homepage": "https://github.com/stanislav-sn/Superheroes#readme"
+}
