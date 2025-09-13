@@ -1,32 +1,47 @@
 {
-	"name": "superheroes",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"workspaces": [
-		"frontend",
-		"backend",
-		"packages/*"
-	],
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "concurrently \"npm --workspace=backend run dev\" \"npm --workspace=frontend run dev\"",
-		"dev:backend": "npm --workspace=backend run dev",
-		"dev:frontend": "npm --workspace=frontend run dev",
-		"build": "npm --workspace=frontend run build && npm --workspace=backend run build"
-	},
-	"devDependencies": {
-		"concurrently": "^9.2.1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/stanislav-sn/Superheroes.git"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/stanislav-sn/Superheroes/issues"
-	},
-	"homepage": "https://github.com/stanislav-sn/Superheroes#readme"
+  "name": "superhero-monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "prepare": "husky install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.16.0",
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@babel/core",
+        "webpack"
+      ]
+    },
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma"
+    ]
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.6.2",
+    "typescript-eslint": "^8.43.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": ["eslint --fix", "prettier --write"]
+  }
 }

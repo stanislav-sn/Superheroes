@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "public"."Superhero" (
+CREATE TABLE "public"."superheroes" (
     "id" TEXT NOT NULL,
     "nickname" TEXT NOT NULL,
     "real_name" TEXT,
@@ -9,21 +9,21 @@ CREATE TABLE "public"."Superhero" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Superhero_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "superheroes_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "public"."Image" (
+CREATE TABLE "public"."images" (
     "id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
     "hero_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Image_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "images_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Superhero_nickname_key" ON "public"."Superhero"("nickname");
+CREATE UNIQUE INDEX "superheroes_nickname_key" ON "public"."superheroes"("nickname");
 
 -- AddForeignKey
-ALTER TABLE "public"."Image" ADD CONSTRAINT "Image_hero_id_fkey" FOREIGN KEY ("hero_id") REFERENCES "public"."Superhero"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."images" ADD CONSTRAINT "images_hero_id_fkey" FOREIGN KEY ("hero_id") REFERENCES "public"."superheroes"("id") ON DELETE CASCADE ON UPDATE CASCADE;

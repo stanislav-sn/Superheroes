@@ -1,1 +1,10 @@
 node_modules
+.env
+.DS_Store
+dist
+build
+coverage
+.husky/_
+.turbo/
+pnpm-debug.log*
+*.tsbuildinfo
