@@ -35,7 +35,8 @@
     "onlyBuiltDependencies": [
       "@prisma/client",
       "@prisma/engines",
-      "prisma"
+      "prisma",
+      "unrs-resolver"
     ]
   },
   "devDependencies": {
