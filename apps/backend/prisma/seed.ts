@@ -1,10 +1,12 @@
-import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { prisma } from '../src/utils/prisma.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
-
-const prisma = new PrismaClient();
 
 const EXTERNAL_API_URL = process.env.EXTERNAL_API_URL;
 
@@ -14,13 +16,13 @@ if (!EXTERNAL_API_URL) {
 
 async function fetchSuperheroes() {
   try {
-    console.log(`Fetching superheroes from: ${EXTERNAL_API_URL}/all.json`);
     const response = await fetch(`${EXTERNAL_API_URL}/all.json`);
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data = await response.json();
-    return data;
+
+    return await response.json();
   } catch (error) {
     console.error('Failed to fetch superheroes:', error);
     return [];
@@ -29,12 +31,6 @@ async function fetchSuperheroes() {
 
 async function seed() {
   console.log('Starting seeding...');
-
-  const existingSuperheroesCount = await prisma.superhero.count();
-  if (existingSuperheroesCount > 0) {
-    console.log(`${existingSuperheroesCount} superheroes already exist. Skipping initial seeding.`);
-    return;
-  }
 
   const superheroesData = await fetchSuperheroes();
 
@@ -52,7 +48,7 @@ async function seed() {
       originDescription: hero.biography?.['placeOfBirth'] || null,
       superpowers: hero.powerstats ? JSON.stringify(hero.powerstats) : null,
       catchPhrase: hero.connections?.groupAffiliation || null,
-      imageUrl: hero.images?.md,
+      images: Object.values(hero.images),
     }));
 
   for (const hero of transformedSuperheroes) {
@@ -66,9 +62,8 @@ async function seed() {
           superpowers: hero.superpowers,
           catchPhrase: hero.catchPhrase,
           images: {
-            create: {
-              url: hero.imageUrl,
-            },
+            deleteMany: {},
+            create: hero.images.map((url: string) => ({ url })),
           },
         },
         create: {
@@ -79,18 +74,15 @@ async function seed() {
           superpowers: hero.superpowers,
           catchPhrase: hero.catchPhrase,
           images: {
-            create: {
-              url: hero.imageUrl,
-            },
+            create: hero.images.map((url: string) => ({ url })),
           },
         },
       });
-      console.log(`Seeded superhero: ${hero.nickname}`);
     } catch (error: any) {
-      if (error.code === 'P2002' && error.meta?.target?.includes('nickname')) {
+      if (error.code === 'P2002') {
         console.warn(`Superhero with nickname "${hero.nickname}" already exists. Skipping.`);
       } else {
-        console.error(`Error seeding superhero ${hero.nickname}:`, error.message);
+        console.error(`Error seeding superhero ${hero.nickname}:`, error);
       }
     }
   }

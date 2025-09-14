@@ -1,62 +1,49 @@
-import globals from "globals";
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
-import prettierRecommended from "eslint-config-prettier";
-import path from "path";
-import { fileURLToPath } from "url";
+import js from '@eslint/js';
+import importPlugin from 'eslint-plugin-import';
+import tseslint from 'typescript-eslint';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-/** @type {import("eslint").Linter.FlatConfig[]} */
+/** @type {import("eslint").Linter.Config[]} */
 export default [
   js.configs.recommended,
-
   ...tseslint.configs.recommended,
 
   {
     ignores: [
-      "node_modules/",
-      "dist/",
-      "build/",
-      ".next/",
-      ".turbo/",
-      "pnpm-lock.yaml",
-      "apps/*/dist/",
-      "apps/*/build/",
+      '**/node_modules/',
+      '**/dist/',
+      '**/build/',
+      '**/.next/',
+      '**/.turbo/',
+      '**/*.d.ts',
+      '**/pnpm-lock.yaml',
     ],
   },
 
   {
-    files: ["**/*.ts", "**/*.tsx"],
+    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: ["./tsconfig.json", "./apps/*/tsconfig.json"],
-        tsconfigRootDir: __dirname,
-      },
-      globals: {
-        ...globals.browser,
-        ...globals.node,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
       },
     },
-    rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        { argsIgnorePattern: "^_" },
-      ],
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-explicit-any": "warn",
-      "no-console": ["warn", { allow: ["warn", "error"] }],
+    plugins: {
+      import: importPlugin,
     },
-  },
-
-  prettierRecommended,
-
-  {
-    files: ["apps/backend/**/*.ts"],
     rules: {
-      "no-console": "off",
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      'no-console': 'warn',
+      'no-var': 'error',
+      'prefer-const': 'warn',
+      semi: ['error', 'always'],
+      quotes: ['error', 'single', { avoidEscape: true }],
+      'comma-dangle': ['error', 'only-multiline'],
+      'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
+      'no-trailing-spaces': 'error',
+      'eol-last': ['error', 'always'],
     },
   },
 ];
