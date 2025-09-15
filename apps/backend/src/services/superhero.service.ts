@@ -13,44 +13,68 @@ export const superheroService = {
   ): Promise<PaginatedResponse<SuperheroEntity>> => {
     const skip = (page - 1) * limit;
 
-    const [data, total] = await Promise.all([
+    const [rawData, total] = await Promise.all([
       prisma.superhero.findMany({
         skip,
         take: limit,
         include: {
           images: true,
         },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { id: 'asc' },
       }),
       prisma.superhero.count(),
     ]);
 
+    const data = rawData.map(hero => ({
+      ...hero,
+      createdAt: hero.createdAt.toISOString(),
+      updatedAt: hero.updatedAt.toISOString(),
+      realName: hero.realName ?? '',
+      originDescription: hero.originDescription ?? '',
+      superpowers: hero.superpowers ?? '',
+      catchPhrase: hero.catchPhrase ?? '',
+      images: hero.images.map(img => ({
+        ...img,
+        createdAt: img.createdAt.toISOString(),
+      })),
+    }));
+
     return {
       data,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-        hasNext: page * limit < total,
-        hasPrev: page > 1,
-      },
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
     };
   },
 
   getSuperheroById: async (id: string) => {
-    return prisma.superhero.findUnique({
+    const hero = await prisma.superhero.findUnique({
       where: { id },
       include: {
         images: true,
       },
     });
+    if (!hero) return null;
+    return {
+      ...hero,
+      createdAt: hero.createdAt.toISOString(),
+      updatedAt: hero.updatedAt.toISOString(),
+      realName: hero.realName ?? '',
+      originDescription: hero.originDescription ?? '',
+      superpowers: hero.superpowers ?? '',
+      catchPhrase: hero.catchPhrase ?? '',
+      images: hero.images.map(img => ({
+        ...img,
+        createdAt: img.createdAt.toISOString(),
+      })),
+    };
   },
 
   createSuperhero: async (data: CreateSuperheroRequest): Promise<SuperheroEntity> => {
     const { images, ...superheroData } = data;
 
-    return await prisma.superhero.create({
+    const hero = await prisma.superhero.create({
       data: {
         ...superheroData,
         images: images
@@ -63,6 +87,19 @@ export const superheroService = {
         images: true,
       },
     });
+    return {
+      ...hero,
+      createdAt: hero.createdAt.toISOString(),
+      updatedAt: hero.updatedAt.toISOString(),
+      realName: hero.realName ?? '',
+      originDescription: hero.originDescription ?? '',
+      superpowers: hero.superpowers ?? '',
+      catchPhrase: hero.catchPhrase ?? '',
+      images: hero.images.map(img => ({
+        ...img,
+        createdAt: img.createdAt.toISOString(),
+      })),
+    };
   },
 
   updateSuperhero: async (
@@ -78,7 +115,7 @@ export const superheroService = {
         });
       }
 
-      return await prisma.superhero.update({
+      const hero = await prisma.superhero.update({
         where: { id },
         data: {
           ...superheroData,
@@ -92,8 +129,20 @@ export const superheroService = {
           images: true,
         },
       });
-    } catch (error) {
-      console.error(error);
+      return {
+        ...hero,
+        createdAt: hero.createdAt.toISOString(),
+        updatedAt: hero.updatedAt.toISOString(),
+        realName: hero.realName ?? '',
+        originDescription: hero.originDescription ?? '',
+        superpowers: hero.superpowers ?? '',
+        catchPhrase: hero.catchPhrase ?? '',
+        images: hero.images.map(img => ({
+          ...img,
+          createdAt: img.createdAt.toISOString(),
+        })),
+      };
+    } catch {
       return null;
     }
   },
@@ -104,8 +153,7 @@ export const superheroService = {
         where: { id },
       });
       return true;
-    } catch (error) {
-      console.error(error);
+    } catch {
       return false;
     }
   },

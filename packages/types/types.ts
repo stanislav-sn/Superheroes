@@ -1,23 +1,32 @@
+export interface SuperpowerStats {
+  intelligence: number;
+  strength: number;
+  speed: number;
+  durability: number;
+  power: number;
+  combat: number;
+}
+
 interface BaseSuperhero {
   nickname: string;
-  realName: string | null;
-  originDescription: string | null;
-  superpowers: string | null;
-  catchPhrase: string | null;
+  realName: string;
+  originDescription: string;
+  superpowers: SuperpowerStats;
+  catchPhrase: string;
 }
 
 export interface ImageEntity {
   id: string;
   url: string;
   heroId: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface SuperheroEntity extends BaseSuperhero {
   id: string;
   images: ImageEntity[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ImageDTO {
@@ -41,25 +50,20 @@ export interface SuperheroPreviewDTO {
 }
 
 export interface CreateSuperheroRequest extends BaseSuperhero {
-  id: string;
   images?: Pick<ImageDTO, 'url'>[];
 }
 
-export type UpdateSuperheroRequest = Partial<Omit<CreateSuperheroRequest, 'id'>>;
+export type UpdateSuperheroRequest = Partial<CreateSuperheroRequest>;
 
 export interface PaginationQuery {
-  page?: number;
-  limit?: number;
+  page: number;
+  limit: number | 'all';
 }
 
 export interface PaginatedResponse<T> {
   data: T[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-    hasNext: boolean;
-    hasPrev: boolean;
-  };
+  total: number;
+  page: number;
+  limit: number | 'all';
+  totalPages: number;
 }
