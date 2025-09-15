@@ -1,10 +1,55 @@
 import { prisma } from '@src/utils/prisma.js';
+import { randomUUID } from 'crypto';
 import type {
   CreateSuperheroRequest,
   PaginatedResponse,
   SuperheroEntity,
   UpdateSuperheroRequest,
 } from 'types';
+
+function parseSuperpowers(sp: unknown) {
+  try {
+    if (!sp) return { intelligence: 0, strength: 0, speed: 0, durability: 0, power: 0, combat: 0 };
+    if (typeof sp === 'string') {
+      const obj = JSON.parse(sp);
+      return {
+        intelligence: Number(obj.intelligence ?? 0),
+        strength: Number(obj.strength ?? 0),
+        speed: Number(obj.speed ?? 0),
+        durability: Number(obj.durability ?? 0),
+        power: Number(obj.power ?? 0),
+        combat: Number(obj.combat ?? 0),
+      };
+    }
+    const obj: any = sp;
+    return {
+      intelligence: Number(obj.intelligence ?? 0),
+      strength: Number(obj.strength ?? 0),
+      speed: Number(obj.speed ?? 0),
+      durability: Number(obj.durability ?? 0),
+      power: Number(obj.power ?? 0),
+      combat: Number(obj.combat ?? 0),
+    };
+  } catch {
+    return { intelligence: 0, strength: 0, speed: 0, durability: 0, power: 0, combat: 0 };
+  }
+}
+
+function mapHero(hero: any): SuperheroEntity {
+  return {
+    ...hero,
+    createdAt: hero.createdAt.toISOString(),
+    updatedAt: hero.updatedAt.toISOString(),
+    realName: hero.realName ?? '',
+    originDescription: hero.originDescription ?? '',
+    superpowers: parseSuperpowers(hero.superpowers),
+    catchPhrase: hero.catchPhrase ?? '',
+    images: (hero.images ?? []).map((img: any) => ({
+      ...img,
+      createdAt: img.createdAt.toISOString(),
+    })),
+  };
+}
 
 export const superheroService = {
   getAllSuperheroes: async (
@@ -25,19 +70,7 @@ export const superheroService = {
       prisma.superhero.count(),
     ]);
 
-    const data = rawData.map(hero => ({
-      ...hero,
-      createdAt: hero.createdAt.toISOString(),
-      updatedAt: hero.updatedAt.toISOString(),
-      realName: hero.realName ?? '',
-      originDescription: hero.originDescription ?? '',
-      superpowers: hero.superpowers ?? '',
-      catchPhrase: hero.catchPhrase ?? '',
-      images: hero.images.map(img => ({
-        ...img,
-        createdAt: img.createdAt.toISOString(),
-      })),
-    }));
+    const data = rawData.map(mapHero);
 
     return {
       data,
@@ -45,6 +78,26 @@ export const superheroService = {
       page,
       limit,
       totalPages: Math.ceil(total / limit),
+    };
+  },
+
+  // Return all superheroes when limit = 'all'
+  getAllSuperheroesAll: async (): Promise<PaginatedResponse<SuperheroEntity>> => {
+    const rawData = await prisma.superhero.findMany({
+      include: { images: true },
+      orderBy: { id: 'asc' },
+    });
+
+    const data = rawData.map(mapHero);
+
+    const total = data.length;
+
+    return {
+      data,
+      total,
+      page: 1,
+      limit: total,
+      totalPages: 1,
     };
   },
 
@@ -56,19 +109,7 @@ export const superheroService = {
       },
     });
     if (!hero) return null;
-    return {
-      ...hero,
-      createdAt: hero.createdAt.toISOString(),
-      updatedAt: hero.updatedAt.toISOString(),
-      realName: hero.realName ?? '',
-      originDescription: hero.originDescription ?? '',
-      superpowers: hero.superpowers ?? '',
-      catchPhrase: hero.catchPhrase ?? '',
-      images: hero.images.map(img => ({
-        ...img,
-        createdAt: img.createdAt.toISOString(),
-      })),
-    };
+    return mapHero(hero);
   },
 
   createSuperhero: async (data: CreateSuperheroRequest): Promise<SuperheroEntity> => {
@@ -76,7 +117,12 @@ export const superheroService = {
 
     const hero = await prisma.superhero.create({
       data: {
-        ...superheroData,
+        id: randomUUID(),
+        nickname: superheroData.nickname,
+        realName: superheroData.realName,
+        originDescription: superheroData.originDescription,
+        superpowers: JSON.stringify(superheroData.superpowers),
+        catchPhrase: superheroData.catchPhrase,
         images: images
           ? {
               create: images,
@@ -87,19 +133,7 @@ export const superheroService = {
         images: true,
       },
     });
-    return {
-      ...hero,
-      createdAt: hero.createdAt.toISOString(),
-      updatedAt: hero.updatedAt.toISOString(),
-      realName: hero.realName ?? '',
-      originDescription: hero.originDescription ?? '',
-      superpowers: hero.superpowers ?? '',
-      catchPhrase: hero.catchPhrase ?? '',
-      images: hero.images.map(img => ({
-        ...img,
-        createdAt: img.createdAt.toISOString(),
-      })),
-    };
+    return mapHero(hero);
   },
 
   updateSuperhero: async (
@@ -118,7 +152,14 @@ export const superheroService = {
       const hero = await prisma.superhero.update({
         where: { id },
         data: {
-          ...superheroData,
+          nickname: superheroData.nickname,
+          realName: superheroData.realName,
+          originDescription: superheroData.originDescription,
+          superpowers:
+            superheroData.superpowers !== undefined
+              ? JSON.stringify(superheroData.superpowers)
+              : undefined,
+          catchPhrase: superheroData.catchPhrase,
           images: images
             ? {
                 create: images,
@@ -129,19 +170,7 @@ export const superheroService = {
           images: true,
         },
       });
-      return {
-        ...hero,
-        createdAt: hero.createdAt.toISOString(),
-        updatedAt: hero.updatedAt.toISOString(),
-        realName: hero.realName ?? '',
-        originDescription: hero.originDescription ?? '',
-        superpowers: hero.superpowers ?? '',
-        catchPhrase: hero.catchPhrase ?? '',
-        images: hero.images.map(img => ({
-          ...img,
-          createdAt: img.createdAt.toISOString(),
-        })),
-      };
+      return mapHero(hero);
     } catch {
       return null;
     }

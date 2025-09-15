@@ -11,12 +11,6 @@ const createValidator = <T extends z.ZodTypeAny>(
       const data =
         source === 'body' ? req.body : source === 'query' ? { ...req.query } : req.params;
 
-      if (source === 'query') {
-        const query = data as Record<string, any>;
-        query.page = query.page ? Number(query.page) || 1 : 1;
-        query.limit = query.limit ? Number(query.limit) || 5 : 5;
-      }
-
       const result = schema.safeParse(data);
 
       if (!result.success) {

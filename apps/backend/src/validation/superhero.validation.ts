@@ -58,5 +58,5 @@ export const updateSuperheroSchema = z.object({
 
 export const paginationSchema = z.object({
   page: z.coerce.number().min(1).default(1).optional(),
-  limit: z.coerce.number().min(1).max(100).default(5).optional(),
+  limit: z.union([z.literal('all'), z.coerce.number().min(1).max(100)]).optional(),
 });

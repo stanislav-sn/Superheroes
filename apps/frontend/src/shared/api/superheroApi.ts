@@ -231,7 +231,7 @@ export const superheroApi = {
         nickname: data.nickname,
         realName: data.realName,
         originDescription: data.originDescription,
-        superpowers: JSON.stringify(data.superpowers),
+        superpowers: data.superpowers,
         catchPhrase: data.catchPhrase,
         images: data.images,
       };
@@ -250,7 +250,7 @@ export const superheroApi = {
         nickname: data.nickname,
         realName: data.realName,
         originDescription: data.originDescription,
-        superpowers: data.superpowers ? JSON.stringify(data.superpowers) : undefined,
+        superpowers: data.superpowers,
         catchPhrase: data.catchPhrase,
         images: data.images,
       };

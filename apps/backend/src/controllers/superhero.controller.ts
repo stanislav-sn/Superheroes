@@ -5,16 +5,24 @@ import type { CreateSuperheroRequest, UpdateSuperheroRequest } from 'types';
 export const superheroController = {
   getAllSuperheroes: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { page = 1, limit = 5 } = (req as any).validatedQuery;
+      const { page = 1, limit = 5 } = (req as any).validatedQuery as {
+        page?: number;
+        limit?: number | 'all';
+      };
 
-      if (page < 1 || limit < 1 || limit > 100) {
+      if (limit === 'all') {
+        const result = await superheroService.getAllSuperheroesAll();
+        return res.json(result);
+      }
+
+      if (page < 1 || (typeof limit === 'number' && (limit < 1 || limit > 100))) {
         return res.status(400).json({
           error:
             'Invalid pagination parameters. Page must be >= 1, limit must be between 1 and 100',
         });
       }
 
-      const result = await superheroService.getAllSuperheroes(page, limit);
+      const result = await superheroService.getAllSuperheroes(page, limit as number);
       res.json(result);
     } catch (error) {
       next(error);
@@ -43,9 +51,9 @@ export const superheroController = {
     try {
       const superheroData: CreateSuperheroRequest = req.body;
 
-      if (!superheroData.nickname || !superheroData.id) {
+      if (!superheroData.nickname) {
         return res.status(400).json({
-          error: 'Nickname and ID are required fields',
+          error: 'Nickname is a required field',
         });
       }
 

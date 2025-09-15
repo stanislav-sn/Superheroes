@@ -138,16 +138,14 @@ const CatalogPage: FC = () => {
             onDelete={handleDeleteSuperhero}
           />
 
-          {data.totalPages > 1 || limit !== 'all' ? (
-            <Pagination
-              currentPage={page}
-              totalPages={data.totalPages}
-              limit={limit}
-              total={data.total}
-              onPageChange={handlePageChange}
-              onLimitChange={handleLimitChange}
-            />
-          ) : null}
+          <Pagination
+            currentPage={page}
+            totalPages={data.totalPages}
+            limit={limit}
+            total={data.total}
+            onPageChange={handlePageChange}
+            onLimitChange={handleLimitChange}
+          />
         </>
       )}
 
