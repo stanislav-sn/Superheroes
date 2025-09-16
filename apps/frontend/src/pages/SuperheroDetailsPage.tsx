@@ -77,7 +77,6 @@ const SuperheroDetailsPage = () => {
   if (error) {
     return (
       <div className="text-center py-20">
-        <div className="text-6xl mb-4">❌</div>
         <h3 className="text-lg font-medium text-foreground mb-2">Superhero Not Found</h3>
         <p className="text-muted-foreground mb-4">
           The superhero you're looking for doesn't exist or has been removed.

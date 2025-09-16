@@ -23,7 +23,6 @@ import type {
   CreateSuperheroRequest,
   UpdateSuperheroRequest,
 } from '../../../backend/src/types/types';
-import Loader from '@/components/Loader';
 
 const CatalogPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -122,13 +121,13 @@ const CatalogPage: FC = () => {
         <div>
           <h1 className="text-4xl font-bold text-foreground mb-2">Superheroes Catalog</h1>
         </div>
-        <Button onClick={handleCreateSuperhero} className="flex items-center gap-2">
-          <Plus className="w-5 h-5" />
-          Add Superhero
-        </Button>
+        {!isLoading && (
+          <Button onClick={handleCreateSuperhero} className="flex items-center gap-2">
+            <Plus className="w-5 h-5" />
+            Add Superhero
+          </Button>
+        )}
       </div>
-
-      {isLoading && <Loader />}
 
       {data && (
         <>

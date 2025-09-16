@@ -1,6 +1,11 @@
 # Superheroes Monorepo
 
-## Quick Start
+A full-stack application to manage a list of superheroes.
+
+Frontend: https://superheroes-frontend-zeta.vercel.app/
+Backend: https://superheroes-bj5n.onrender.com/api/superheroes
+
+## Tech Stack
 
 ### Frontend
 
@@ -9,8 +14,8 @@
 - **TanStack Query (React Query)** - Data fetching and caching
 - **Zod** - Schema validation
 - **React Router** - Navigation
-  **React Hook Form** - Form management
-  **Tailwind CSS** - Styling and animations
+- **React Hook Form** - Form management
+- **Tailwind CSS** - Styling and animations
 - **Shadcn/ui** - UI components
 - **Vite** - Build tool
 
