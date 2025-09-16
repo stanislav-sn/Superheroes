@@ -147,10 +147,10 @@ export function SuperheroForm({ superhero, onSubmit, onCancel, isSubmitting }: S
       combat: data.combat,
     };
 
-    const basePayload = {
+    const basePayload: CreateSuperheroRequest = {
       nickname: data.nickname,
-      realName: data.realName ?? '',
-      originDescription: data.originDescription ?? '',
+      realName: data.realName || '',
+      originDescription: data.originDescription || '',
       catchPhrase: data.catchPhrase,
       superpowers,
     };
@@ -164,6 +164,7 @@ export function SuperheroForm({ superhero, onSubmit, onCancel, isSubmitting }: S
       const trimmedUrl = (data.imageUrl ?? '').trim();
       const images =
         trimmedUrl && trimmedUrl !== currentPrimary ? [{ url: trimmedUrl }] : undefined;
+
       const updateData: UpdateSuperheroRequest = {
         ...basePayload,
         ...(images ? { images } : {}),

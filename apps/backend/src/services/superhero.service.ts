@@ -81,7 +81,6 @@ export const superheroService = {
     };
   },
 
-  // Return all superheroes when limit = 'all'
   getAllSuperheroesAll: async (): Promise<PaginatedResponse<SuperheroEntity>> => {
     const rawData = await prisma.superhero.findMany({
       include: { images: true },
@@ -149,23 +148,29 @@ export const superheroService = {
         });
       }
 
+      const updateData: any = {
+        nickname: superheroData.nickname,
+        realName: superheroData.realName,
+        originDescription: superheroData.originDescription,
+        catchPhrase: superheroData.catchPhrase,
+      };
+
+      if (superheroData.superpowers !== undefined) {
+        updateData.superpowers =
+          typeof superheroData.superpowers === 'string'
+            ? superheroData.superpowers
+            : JSON.stringify(superheroData.superpowers);
+      }
+
+      if (images) {
+        updateData.images = {
+          create: images,
+        };
+      }
+
       const hero = await prisma.superhero.update({
         where: { id },
-        data: {
-          nickname: superheroData.nickname,
-          realName: superheroData.realName,
-          originDescription: superheroData.originDescription,
-          superpowers:
-            superheroData.superpowers !== undefined
-              ? JSON.stringify(superheroData.superpowers)
-              : undefined,
-          catchPhrase: superheroData.catchPhrase,
-          images: images
-            ? {
-                create: images,
-              }
-            : undefined,
-        },
+        data: updateData,
         include: {
           images: true,
         },

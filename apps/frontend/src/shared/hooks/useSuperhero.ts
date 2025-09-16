@@ -6,6 +6,6 @@ export function useSuperhero(id: string | undefined) {
     queryKey: ['superhero', id],
     queryFn: () => superheroApi.getSuperheroById(id!),
     enabled: !!id,
-    staleTime: 1000 * 60 * 10, // 10 minutes
+    staleTime: 1000 * 60 * 10,
   });
 }
