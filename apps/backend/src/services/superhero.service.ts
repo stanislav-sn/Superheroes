@@ -1,4 +1,4 @@
-import { prisma } from '@src/utils/prisma.js';
+import { prisma } from '../utils/prisma.js';
 import { randomUUID } from 'crypto';
 import type {
   CreateSuperheroRequest,

@@ -1,4 +1,4 @@
-import { superheroService } from '@src/services/superhero.service.js';
+import { superheroService } from '../services/superhero.service.js';
 import { NextFunction, Request, Response } from 'express';
 import type { CreateSuperheroRequest, UpdateSuperheroRequest } from '../types/types.js';
 
