@@ -4,7 +4,7 @@
     "outDir": "./dist",
     "declaration": true,
     "composite": true,
-    "rootDir": ".."
+    "rootDir": "src"
   },
   "include": ["src/**/*.ts", "prisma/**/*.ts", "../../packages/types/**/*.ts"],
   "exclude": ["node_modules", "dist"]
