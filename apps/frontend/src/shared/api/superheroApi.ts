@@ -15,7 +15,7 @@ interface UpdateSuperheroApiRequest extends Omit<UpdateSuperheroRequest, 'superp
   superpowers?: string;
 }
 
-const API_BASE_URL = '/api/superheroes';
+const API_BASE_URL = import.meta.env.VITE_URL_BACKEND_API || '/api/superheroes';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
