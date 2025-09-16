@@ -4,6 +4,9 @@
   "description": "",
   "type": "module",
   "main": "dist/index.js",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/index.js",
