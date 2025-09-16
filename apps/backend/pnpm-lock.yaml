@@ -1,0 +1,3 @@
+# pnpm-lock.yaml copied from monorepo root for Render compatibility
+# This file is required for dependency installation in Render's root directory setup.
+# If you update dependencies, re-copy the lock file from the root.
