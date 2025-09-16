@@ -1,5 +1,5 @@
 import { SuperheroCard } from '../../../entities/superhero/SuperheroCard';
-import type { SuperheroEntity } from '../../../../../../packages/types/types';
+import type { SuperheroEntity } from '../../../../../backend/src/types/types';
 
 interface SuperheroListProps {
   superheroes?: SuperheroEntity[];

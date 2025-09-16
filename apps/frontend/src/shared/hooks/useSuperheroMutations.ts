@@ -3,8 +3,8 @@ import { superheroApi } from '../api/superheroApi';
 import type {
   CreateSuperheroRequest,
   UpdateSuperheroRequest,
-} from '../../../../../packages/types/types';
-import type { SuperheroEntity } from '../../../../../packages/types/types';
+} from '../../../../backend/src/types/types';
+import type { SuperheroEntity } from '../../../../backend/src/types/types';
 
 export function useSuperheroMutations() {
   const queryClient = useQueryClient();

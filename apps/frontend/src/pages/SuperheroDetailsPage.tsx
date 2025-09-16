@@ -16,7 +16,7 @@ import { SuperheroDetails } from '../features/superhero-details/components/Super
 import { SuperheroForm } from '../features/superhero-form/components/SuperheroForm';
 import { useSuperhero } from '../shared/hooks/useSuperhero';
 import { useSuperheroMutations } from '../shared/hooks/useSuperheroMutations';
-import type { UpdateSuperheroRequest } from '../../../../packages/types/types';
+import type { UpdateSuperheroRequest } from '../../../backend/src/types/types';
 
 const SuperheroDetailsPage = () => {
   const { id } = useParams<{ id: string }>();

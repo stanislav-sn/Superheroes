@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Eye, Edit, Trash2 } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import type { SuperheroEntity } from '../../../../../packages/types/types';
+import type { SuperheroEntity } from '../../../../backend/src/types/types';
 
 interface SuperheroCardProps {
   superhero: SuperheroEntity;

@@ -10,10 +10,8 @@
     "baseUrl": ".",
     "paths": {
       "@src/*": ["apps/backend/src/*"],
-      "types": ["packages/types/types.ts"]
+      "types": ["apps/backend/src/types/types.ts"]
     }
   },
-  "references": [
-    { "path": "./apps/backend" }
-  ]
+  "references": [{ "path": "./apps/backend" }]
 }

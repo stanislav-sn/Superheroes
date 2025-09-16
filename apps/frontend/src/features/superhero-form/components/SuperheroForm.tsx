@@ -12,7 +12,7 @@ import type {
   UpdateSuperheroRequest,
   SuperheroEntity,
   SuperpowerStats,
-} from '../../../../../../packages/types/types';
+} from '../../../../../backend/src/types/types';
 
 const superheroSchema = z.object({
   nickname: z

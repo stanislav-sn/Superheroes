@@ -5,7 +5,7 @@ import type {
   PaginationQuery,
   CreateSuperheroRequest,
   UpdateSuperheroRequest,
-} from '../../../../../packages/types/types';
+} from '../../../../backend/src/types/types';
 
 interface CreateSuperheroApiRequest extends Omit<CreateSuperheroRequest, 'superpowers'> {
   superpowers: string;

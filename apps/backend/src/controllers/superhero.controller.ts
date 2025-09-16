@@ -1,6 +1,6 @@
 import { superheroService } from '@src/services/superhero.service.js';
 import { NextFunction, Request, Response } from 'express';
-import type { CreateSuperheroRequest, UpdateSuperheroRequest } from 'types';
+import type { CreateSuperheroRequest, UpdateSuperheroRequest } from '../types/types.js';
 
 export const superheroController = {
   getAllSuperheroes: async (req: Request, res: Response, next: NextFunction) => {

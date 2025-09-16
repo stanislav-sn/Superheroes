@@ -22,7 +22,7 @@ import type {
   SuperheroEntity,
   CreateSuperheroRequest,
   UpdateSuperheroRequest,
-} from '../../../../packages/types/types';
+} from '../../../backend/src/types/types';
 import Loader from '@/components/Loader';
 
 const CatalogPage: FC = () => {

@@ -2,7 +2,7 @@ import { ArrowLeft, Edit, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../../../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
-import type { SuperheroEntity, SuperpowerStats } from '../../../../../../packages/types/types';
+import type { SuperheroEntity, SuperpowerStats } from '../../../../../backend/src/types/types';
 
 interface SuperheroDetailsProps {
   superhero: SuperheroEntity;

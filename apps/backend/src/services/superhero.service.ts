@@ -5,7 +5,7 @@ import type {
   PaginatedResponse,
   SuperheroEntity,
   UpdateSuperheroRequest,
-} from 'types';
+} from '../types/types.js';
 
 function parseSuperpowers(sp: unknown) {
   try {
