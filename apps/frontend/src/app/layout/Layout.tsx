@@ -1,14 +1,10 @@
-import type { ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-export function Layout({ children }: LayoutProps) {
+export function Layout() {
   return (
     <div className="dark min-h-screen bg-background ">
       <main className="container mx-auto px-4 py-8 flex flex-col justify-center items-center w-full">
-        {children}
+        <Outlet />
       </main>
     </div>
   );
