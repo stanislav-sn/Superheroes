@@ -34,6 +34,11 @@ export interface CreateUpdateSuperheroDTO extends Omit<BaseSuperhero, 'superpowe
   images?: Array<{ url: string }>;
 }
 
+export interface PaginationQuery {
+  page: number;
+  limit: number | 'all';
+}
+
 export interface PaginatedResponse<T> {
   data: T[];
   total: number;

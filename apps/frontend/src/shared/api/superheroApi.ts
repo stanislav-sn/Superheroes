@@ -1,19 +1,10 @@
 import axios from 'axios';
 import type {
-  SuperheroEntity,
+  CreateUpdateSuperheroDTO,
   PaginatedResponse,
   PaginationQuery,
-  CreateSuperheroRequest,
-  UpdateSuperheroRequest,
-} from '../../../../backend/src/types/types';
-
-interface CreateSuperheroApiRequest extends Omit<CreateSuperheroRequest, 'superpowers'> {
-  superpowers: string;
-}
-
-interface UpdateSuperheroApiRequest extends Omit<UpdateSuperheroRequest, 'superpowers'> {
-  superpowers?: string;
-}
+  SuperheroEntity,
+} from '../../types/types';
 
 const API_BASE_URL = import.meta.env.VITE_URL_BACKEND_API || '/api/superheroes';
 
@@ -49,9 +40,9 @@ export const superheroApi = {
     }
   },
 
-  async createSuperhero(data: CreateSuperheroRequest): Promise<SuperheroEntity> {
+  async createSuperhero(data: CreateUpdateSuperheroDTO): Promise<SuperheroEntity> {
     try {
-      const requestPayload: CreateSuperheroApiRequest = {
+      const requestPayload: CreateUpdateSuperheroDTO = {
         ...data,
         superpowers: JSON.stringify(data.superpowers),
       };
@@ -64,23 +55,20 @@ export const superheroApi = {
     }
   },
 
-  async updateSuperhero(id: string, data: UpdateSuperheroRequest): Promise<SuperheroEntity> {
+  async updateSuperhero(id: string, data: CreateUpdateSuperheroDTO): Promise<SuperheroEntity> {
     try {
-      const requestPayload: UpdateSuperheroApiRequest = {};
+      const requestPayload: CreateUpdateSuperheroDTO = {
+        nickname: data.nickname,
+        realName: data.realName,
+        originDescription: data.originDescription,
+        catchPhrase: data.catchPhrase,
+        superpowers: data.superpowers,
+        images: data.images,
+      };
 
-      (Object.keys(data) as Array<keyof UpdateSuperheroRequest>).forEach(key => {
-        if (data[key] !== undefined) {
-          if (key === 'superpowers' && data.superpowers) {
-            requestPayload.superpowers =
-              typeof data.superpowers === 'string'
-                ? data.superpowers
-                : JSON.stringify(data.superpowers);
-          } else {
-            // @ts-expect-error - We know the types are compatible
-            requestPayload[key] = data[key];
-          }
-        }
-      });
+      if (data.superpowers && typeof data.superpowers !== 'string') {
+        requestPayload.superpowers = JSON.stringify(data.superpowers);
+      }
 
       const response = await api.put<SuperheroEntity>(`/${id}`, requestPayload);
       return response.data;

@@ -1,10 +1,9 @@
 import { prisma } from '../utils/prisma.js';
 import { randomUUID } from 'crypto';
 import type {
-  CreateSuperheroRequest,
   PaginatedResponse,
   SuperheroEntity,
-  UpdateSuperheroRequest,
+  CreateUpdateSuperheroDTO,
 } from '../types/types.js';
 
 function parseSuperpowers(sp: unknown) {
@@ -111,7 +110,7 @@ export const superheroService = {
     return mapHero(hero);
   },
 
-  createSuperhero: async (data: CreateSuperheroRequest): Promise<SuperheroEntity> => {
+  createSuperhero: async (data: CreateUpdateSuperheroDTO): Promise<SuperheroEntity> => {
     const { images, ...superheroData } = data;
 
     const hero = await prisma.superhero.create({
@@ -137,7 +136,7 @@ export const superheroService = {
 
   updateSuperhero: async (
     id: string,
-    data: UpdateSuperheroRequest,
+    data: CreateUpdateSuperheroDTO,
   ): Promise<SuperheroEntity | null> => {
     const { images, ...superheroData } = data;
 

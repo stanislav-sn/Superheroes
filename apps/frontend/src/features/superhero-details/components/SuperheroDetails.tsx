@@ -2,7 +2,7 @@ import { ArrowLeft, Edit, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../../../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
-import type { SuperheroEntity, SuperpowerStats } from '../../../../../backend/src/types/types';
+import type { SuperheroEntity, SuperpowerStats } from '../../../types/types';
 
 interface SuperheroDetailsProps {
   superhero: SuperheroEntity;
@@ -13,8 +13,10 @@ interface SuperheroDetailsProps {
 export function SuperheroDetails({ superhero, onEdit, onDelete }: SuperheroDetailsProps) {
   const getPrimaryImage = () => {
     if (superhero.images.length === 0) return null;
-    const lgImage = superhero.images.find(img => img.url.includes('/lg/'));
-    return lgImage || superhero.images[0];
+
+    const mdImage = superhero.images.find(img => img.url.includes('/md/'));
+
+    return mdImage || superhero.images[0];
   };
 
   const getSuperpowers = (): SuperpowerStats => {
@@ -27,11 +29,14 @@ export function SuperheroDetails({ superhero, onEdit, onDelete }: SuperheroDetai
       combat: 0,
     };
     try {
-      const sp: unknown = (superhero as any).superpowers;
+      const sp: unknown = superhero.superpowers;
+
       if (!sp) return defaults;
+
       if (typeof sp === 'string') {
         return JSON.parse(sp) as SuperpowerStats;
       }
+
       return sp as SuperpowerStats;
     } catch {
       return defaults;

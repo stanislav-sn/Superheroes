@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import type { PaginationQuery } from '../../types/types';
 import { superheroApi } from '../api/superheroApi';
-import type { PaginationQuery } from '../../../../backend/src/types/types';
 
 export function useSuperheroList(filters: PaginationQuery) {
   return useQuery({

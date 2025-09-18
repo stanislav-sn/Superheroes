@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,11 +11,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '../components/ui/alert-dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { SuperheroDetails } from '../features/superhero-details/components/SuperheroDetails';
 import { SuperheroForm } from '../features/superhero-form/components/SuperheroForm';
 import { useSuperhero } from '../shared/hooks/useSuperhero';
 import { useSuperheroMutations } from '../shared/hooks/useSuperheroMutations';
-import type { UpdateSuperheroRequest } from '../../../backend/src/types/types';
+import type { CreateUpdateSuperheroDTO } from '../types/types';
 
 const SuperheroDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -35,7 +35,7 @@ const SuperheroDetailsPage = () => {
     setIsDeleteDialogOpen(true);
   };
 
-  const handleFormSubmit = (formData: UpdateSuperheroRequest) => {
+  const handleFormSubmit = (formData: CreateUpdateSuperheroDTO) => {
     if (id) {
       updateSuperhero(
         { id, data: formData },

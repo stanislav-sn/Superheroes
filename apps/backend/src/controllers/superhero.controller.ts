@@ -1,6 +1,6 @@
 import { superheroService } from '../services/superhero.service.js';
 import { NextFunction, Request, Response } from 'express';
-import type { CreateSuperheroRequest, UpdateSuperheroRequest } from '../types/types.js';
+import type { CreateUpdateSuperheroDTO } from '../types/types.js';
 
 export const superheroController = {
   getAllSuperheroes: async (req: Request, res: Response, next: NextFunction) => {
@@ -49,7 +49,7 @@ export const superheroController = {
 
   createSuperhero: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const superheroData: CreateSuperheroRequest = req.body;
+      const superheroData: CreateUpdateSuperheroDTO = req.body;
 
       if (!superheroData.nickname) {
         return res.status(400).json({
@@ -72,7 +72,7 @@ export const superheroController = {
   updateSuperhero: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const superheroData: UpdateSuperheroRequest = req.body;
+      const superheroData: CreateUpdateSuperheroDTO = req.body;
 
       if (!id) {
         return res.status(400).json({ error: 'Superhero ID is required' });

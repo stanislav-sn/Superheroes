@@ -1,18 +1,17 @@
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../../../components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Input } from '../../../components/ui/input';
 import { Label } from '../../../components/ui/label';
-import { Textarea } from '../../../components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Slider } from '../../../components/ui/slider';
+import { Textarea } from '../../../components/ui/textarea';
 import type {
-  CreateSuperheroRequest,
-  UpdateSuperheroRequest,
+  CreateUpdateSuperheroDTO,
   SuperheroEntity,
   SuperpowerStats,
-} from '../../../../../backend/src/types/types';
+} from '../../../types/types';
 
 const superheroSchema = z.object({
   nickname: z
@@ -48,7 +47,7 @@ type FormData = z.infer<typeof superheroSchema>;
 
 interface SuperheroFormProps {
   superhero?: SuperheroEntity;
-  onSubmit: (data: CreateSuperheroRequest | UpdateSuperheroRequest) => void;
+  onSubmit: (data: CreateUpdateSuperheroDTO) => void;
   onCancel: () => void;
   isSubmitting?: boolean;
 }
@@ -147,7 +146,7 @@ export function SuperheroForm({ superhero, onSubmit, onCancel, isSubmitting }: S
       combat: data.combat,
     };
 
-    const basePayload: CreateSuperheroRequest = {
+    const basePayload: CreateUpdateSuperheroDTO = {
       nickname: data.nickname,
       realName: data.realName || '',
       originDescription: data.originDescription || '',
@@ -165,13 +164,13 @@ export function SuperheroForm({ superhero, onSubmit, onCancel, isSubmitting }: S
       const images =
         trimmedUrl && trimmedUrl !== currentPrimary ? [{ url: trimmedUrl }] : undefined;
 
-      const updateData: UpdateSuperheroRequest = {
+      const updateData: CreateUpdateSuperheroDTO = {
         ...basePayload,
         ...(images ? { images } : {}),
       };
       onSubmit(updateData);
     } else {
-      const createData: CreateSuperheroRequest = {
+      const createData: CreateUpdateSuperheroDTO = {
         ...basePayload,
         images: data.imageUrl ? [{ url: data.imageUrl }] : undefined,
       };

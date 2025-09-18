@@ -1,8 +1,8 @@
+import { Edit, Eye, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Eye, Edit, Trash2 } from 'lucide-react';
-import { Card, CardContent, CardFooter } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import type { SuperheroEntity } from '../../../../backend/src/types/types';
+import { Card, CardContent, CardFooter } from '../../components/ui/card';
+import type { SuperheroEntity } from '../../types/types';
 
 interface SuperheroCardProps {
   superhero: SuperheroEntity;
@@ -13,8 +13,10 @@ interface SuperheroCardProps {
 export function SuperheroCard({ superhero, onEdit, onDelete }: SuperheroCardProps) {
   const getPrimaryImage = () => {
     if (superhero.images.length === 0) return null;
-    const lgImage = superhero.images.find(img => img.url.includes('/lg/'));
-    return lgImage || superhero.images[0];
+
+    const mdImage = superhero.images.find(img => img.url.includes('/md/'));
+
+    return mdImage || superhero.images[0];
   };
 
   const primaryImage = getPrimaryImage();

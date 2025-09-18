@@ -1,8 +1,6 @@
+import { Plus } from 'lucide-react';
 import { useState, type FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Plus } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,16 +11,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '../components/ui/alert-dialog';
-import { SuperheroList } from '../features/superhero-list/components/SuperheroList';
-import { Pagination } from '../features/superhero-list/components/Pagination';
+import { Button } from '../components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { SuperheroForm } from '../features/superhero-form/components/SuperheroForm';
+import { Pagination } from '../features/superhero-list/components/Pagination';
+import { SuperheroList } from '../features/superhero-list/components/SuperheroList';
 import { useSuperheroList } from '../shared/hooks/useSuperheroList';
 import { useSuperheroMutations } from '../shared/hooks/useSuperheroMutations';
-import type {
-  SuperheroEntity,
-  CreateSuperheroRequest,
-  UpdateSuperheroRequest,
-} from '../../../backend/src/types/types';
+import type { CreateUpdateSuperheroDTO, SuperheroEntity } from '../types/types';
 
 const CatalogPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -69,11 +65,11 @@ const CatalogPage: FC = () => {
     setDeletingSuperheroId(id);
   };
 
-  const handleFormSubmit = (formData: CreateSuperheroRequest | UpdateSuperheroRequest) => {
+  const handleFormSubmit = (formData: CreateUpdateSuperheroDTO) => {
     if (editingSuperhero) {
       const { id } = editingSuperhero;
       updateSuperhero(
-        { id, data: formData as UpdateSuperheroRequest },
+        { id, data: formData },
         {
           onSuccess: () => {
             setIsFormOpen(false);
@@ -82,7 +78,7 @@ const CatalogPage: FC = () => {
         },
       );
     } else {
-      createSuperhero(formData as CreateSuperheroRequest, {
+      createSuperhero(formData, {
         onSuccess: () => {
           setIsFormOpen(false);
         },

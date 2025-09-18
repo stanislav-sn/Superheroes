@@ -1,16 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { CreateUpdateSuperheroDTO, SuperheroEntity } from '../../types/types';
 import { superheroApi } from '../api/superheroApi';
-import type {
-  CreateSuperheroRequest,
-  UpdateSuperheroRequest,
-} from '../../../../backend/src/types/types';
-import type { SuperheroEntity } from '../../../../backend/src/types/types';
 
 export function useSuperheroMutations() {
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
-    mutationFn: (data: CreateSuperheroRequest) => superheroApi.createSuperhero(data),
+    mutationFn: (data: CreateUpdateSuperheroDTO) => superheroApi.createSuperhero(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['superheroes'] });
     },
@@ -20,7 +16,7 @@ export function useSuperheroMutations() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateSuperheroRequest }) =>
+    mutationFn: ({ id, data }: { id: string; data: CreateUpdateSuperheroDTO }) =>
       superheroApi.updateSuperhero(id, data),
     onSuccess: (updatedSuperhero: SuperheroEntity) => {
       queryClient.invalidateQueries({ queryKey: ['superheroes'] });
