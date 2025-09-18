@@ -2,8 +2,9 @@
 
 A full-stack application to manage a list of superheroes.
 
-Frontend: https://superheroes-frontend-zeta.vercel.app/
-Backend: https://superheroes-bj5n.onrender.com/api/superheroes
+**Frontend:** https://superheroes-frontend-zeta.vercel.app/
+
+**API Endpoint:** https://superheroes-bj5n.onrender.com/api/superheroes
 
 ## Tech Stack
 
@@ -17,13 +18,16 @@ Backend: https://superheroes-bj5n.onrender.com/api/superheroes
 - **React Hook Form** - Form management
 - **Tailwind CSS** - Styling and animations
 - **Shadcn/ui** - UI components
+- **Axios** - HTTP client
+- **ESLint & Prettier** - Code quality and formatting
+- **Husky & lint-staged** - Git hooks
 - **Vite** - Build tool
 
 ### Backend
 
 - **Express** - Web framework
 - **Prisma ORM** - Database toolkit
-- **PostgreSQL** - Database (hosted on Render)
+- **PostgreSQL** - Database (hosted on Neon)
 - **TypeScript** - Type safety
 - **Zod** - Schema validation
 
@@ -70,7 +74,7 @@ Backend: https://superheroes-bj5n.onrender.com/api/superheroes
 if need to fill the database with data:
 
 ```bash
-pnpm db:seed
+   pnpm db:seed
 ```
 
 ```bash
@@ -93,9 +97,9 @@ pnpm db:seed
 ## API Endpoints
 
 ```bash
-GET /api/superheroes - List heroes (paginated)
-GET /api/superheroes/:id - Get single hero
-POST /api/superheroes - Create hero
-PUT /api/superheroes/:id - Update hero
-DELETE /api/superheroes/:id - Delete hero
+   GET /api/superheroes - List heroes (paginated)
+   GET /api/superheroes/:id - Get single hero
+   POST /api/superheroes - Create hero
+   PUT /api/superheroes/:id - Update hero
+   DELETE /api/superheroes/:id - Delete hero
 ```
