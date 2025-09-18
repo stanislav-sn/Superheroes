@@ -9,6 +9,6 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Call backend
+      - name: Curl /health endpoint
         run: |
-          curl -s -o /dev/null -w "%{http_code}" https://superheroes-bj5n.onrender.com/health || true
+          curl -s https://superheroes-bj5n.onrender.com/health || echo "Server is down"
