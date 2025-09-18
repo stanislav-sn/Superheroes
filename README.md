@@ -53,38 +53,38 @@ A full-stack application to manage a list of superheroes.
 1. Install dependencies:
 
 ```bash
-   pnpm install
+  pnpm install
 ```
 
 2. Set up environment:
-   Open .env.example in
-   apps/backend/
-   and paste your password in the DATABASE_URL "password" field
+  Open .env.example in
+  apps/backend/
+  and paste your password in the DATABASE_URL "password" field
 
 ```bash
-   DATABASE_URL="postgresql://postgres:password@localhost:5432/superheroes_db"
+  DATABASE_URL="postgresql://postgres:password@localhost:5432/superheroes_db"
 ```
 
 3. Run migrations:
 
 ```bash
-   pnpm db:migrate
+  pnpm db:migrate
 ```
 
 if need to fill the database with data:
 
 ```bash
-   pnpm db:seed
+  pnpm db:seed
 ```
 
 ```bash
-   DATABASE_URL="postgresql://postgres:password@localhost:5432/superheroes_db"
+  DATABASE_URL="postgresql://postgres:password@localhost:5432/superheroes_db"
 ```
 
 4. Start the frontend and backend:
 
 ```bash
-   pnpm run dev
+  pnpm run dev
 ```
 
 5. Open http://localhost:5173 in your browser to see the app.
@@ -97,9 +97,10 @@ if need to fill the database with data:
 ## API Endpoints
 
 ```bash
-   GET /api/superheroes - List heroes (paginated)
-   GET /api/superheroes/:id - Get single hero
-   POST /api/superheroes - Create hero
-   PUT /api/superheroes/:id - Update hero
-   DELETE /api/superheroes/:id - Delete hero
+  GET /api/superheroes - List heroes (paginated)
+  GET /api/superheroes/:id - Get single hero
+  POST /api/superheroes - Create hero
+  PUT /api/superheroes/:id - Update hero
+  DELETE /api/superheroes/:id - Delete hero
+  GET /health - Health check
 ```
